@@ -1,36 +1,38 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
-const port = 3000
+require('dotenv').config()
+
+const port = process.env.PORT || 3000
 
 const app = express()
-app.use(express.static(__dirname))
-app.use(express.urlencoded({extended:true}))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.urlencoded({ extended: true }))
 
-let databaseName = "Test"; // outermost
-let collectionName = "Testing"; // inside database
+const databaseName = "Test"
+const collectionName = "Testing"
 
-mongoose.connect(`mongodb+srv://wesleyjwolfe:U6wLRTmpDAaiAZIu@cluster0.llgejbp.mongodb.net/${databaseName}`)
+mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
 
-db.once('open',()=> {
-    console.log("Mongodb connection successful")
+db.once('open', () => {
+    console.log("Mongodb connection successful") 
 })
 
 const userSchema = new mongoose.Schema({
-    name:String,
-    gameId:String
+    name: String,
+    gameId: String
 })
 
-const Users = mongoose.model(collectionName,userSchema)
+const Users = mongoose.model(collectionName, userSchema)
 
-app.get('/',(req,res) => {
-    res.sendFile(path.join(__dirname,'form.html'))
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'form.html'))
 })
 
-app.post('/post',async (req,res) => {
-    const {name, gameId} = req.body
-    const user = new Users ({
+app.post('/post', async (req, res) => {
+    const { name, gameId } = req.body
+    const user = new Users({
         name,
         gameId
     })
@@ -39,6 +41,6 @@ app.post('/post',async (req,res) => {
     res.send("Form Submission Successful")
 })
 
-app.listen(port,() => {
-    console.log("server started")
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`)
 })
