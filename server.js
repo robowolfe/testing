@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 require('dotenv').config()
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3221
 
 const app = express()
 app.use(express.static(path.join(__dirname, 'public')))
