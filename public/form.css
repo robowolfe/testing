@@ -17,3 +17,7 @@ body {
 form>*{
     display:block;
 }
+
+form input {
+    color:black;
+}
