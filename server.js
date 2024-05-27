@@ -9,8 +9,8 @@ const app = express()
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.urlencoded({ extended: true }))
 
-const databaseName = "Test"
-const collectionName = "Testing"
+const databaseName = "fromMongo"
+const collectionName = "game"
 
 mongoose.connect(process.env.MONGODB_URI)
 const db = mongoose.connection
